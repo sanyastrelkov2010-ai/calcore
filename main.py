@@ -84,6 +84,7 @@ KV = '''
 <ClickableRow@ButtonBehavior+MDBoxLayout>:
     ripple_behavior: True
 
+# === УНИВЕРСАЛЬНЫЙ БЛОК ГРАФИКА ===
 <StatBlock@ButtonBehavior+MDBoxLayout>:
     orientation: "vertical"
     adaptive_height: True
@@ -102,7 +103,7 @@ KV = '''
         pos_hint: {"center_x": .5}
         canvas.before:
             Color:
-                rgba: (0.25, 0.25, 0.25, 1) if app.theme_cls.theme_style == "Dark" else (0.9, 0.9, 0.9, 1)
+                rgba: (0.3, 0.3, 0.3, 1) if app.theme_cls.theme_style == "Dark" else (0.85, 0.85, 0.85, 1)
             Line:
                 circle: (self.center_x, self.center_y, dp(38))
                 width: dp(4)
@@ -121,6 +122,7 @@ KV = '''
             theme_text_color: "Custom"
             text_color: (1, 1, 1, 1) if app.theme_cls.theme_style == "Dark" else (0.1, 0.1, 0.1, 1)
             
+        # Текст (названия колец) теперь белый в темной теме
         MDLabel:
             text: f"{root.title}\\n{root.unit}"
             halign: "center"
@@ -136,7 +138,7 @@ KV = '''
         halign: "center"
         font_size: "10sp"
         theme_text_color: "Custom"
-        text_color: (0.8, 0.8, 0.8, 1) if app.theme_cls.theme_style == "Dark" else (0.4, 0.4, 0.4, 1)
+        text_color: (0.9, 0.9, 0.9, 1) if app.theme_cls.theme_style == "Dark" else (0.4, 0.4, 0.4, 1)
         adaptive_height: True
 
 <SemiTimer@MDFloatLayout>:
@@ -170,7 +172,7 @@ KV = '''
 
 <ProgressCard>:
     orientation: "vertical"
-    padding: [dp(10), dp(2), dp(10), dp(10)]
+    padding: [dp(10), dp(0), dp(10), dp(5)] # Максимально убраны отступы, чтобы поднять текст
     radius: [dp(20)]
     md_bg_color: (0.18, 0.18, 0.18, 1) if app.theme_cls.theme_style == "Dark" else (1, 1, 1, 1)
     elevation: 0
@@ -215,12 +217,11 @@ KV = '''
                 ripple_behavior: True
                 on_release: app.add_water(250)
             
+        # --- ЦЕНТРАЛЬНАЯ КОЛОНКА: Идеальное выравнивание по вертикальному центру ---
         MDBoxLayout:
             orientation: "vertical"
-            adaptive_height: True
-            Widget:
-                size_hint_y: None
-                height: dp(42)
+            # Убираем adaptive_height, чтобы колонка растянулась на всю высоту боковых рядов
+            Widget: # Гибкая распорка сверху
             StatBlock:
                 title: "ККАЛ"
                 unit: ""
@@ -228,9 +229,7 @@ KV = '''
                 value: root.cal_val
                 max_value: root.cal_max
                 consumed_text: f"съед: {int(root.cal_val)}г"
-            Widget:
-                size_hint_y: None
-                height: dp(42)
+            Widget: # Гибкая распорка снизу
             
         MDBoxLayout:
             orientation: "vertical"
@@ -482,13 +481,13 @@ MDFloatLayout:
 
     MDBoxLayout:
         orientation: "vertical"
-        # Увеличен верхний отступ (padding), чтобы опустить аватарку и шапку ниже
-        padding: [dp(20), dp(25), dp(20), 0]
-        spacing: dp(10)
+        # Уменьшаем отступы сверху, чтобы поднять все выше
+        padding: [dp(20), dp(10), dp(20), 0]
+        spacing: dp(5)
         
         MDBoxLayout:
             size_hint_y: None
-            height: dp(45)
+            height: dp(40)
             spacing: dp(10)
             
             MDIconButton:
@@ -792,7 +791,6 @@ MDFloatLayout:
         MDBoxLayout:
             orientation: "vertical"
             pos_hint: {"top": 1}
-            # Увеличен верхний отступ для профиля
             padding: [dp(20), dp(45), dp(20), 0]
             spacing: dp(10)
 
@@ -854,7 +852,6 @@ MDFloatLayout:
                     
                 Widget:
                     size_hint_y: None
-                    # Еще больше увеличили отступ, чтобы опустить кнопки в профиле ниже
                     height: dp(150) 
                     
                 MDCard:
