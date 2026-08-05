@@ -17,7 +17,14 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install dependencies
+    # ДОБАВЛЕНО: Установка Java 17, необходимой для сборки Android APK
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y \
@@ -43,10 +50,11 @@ jobs:
             libxmlsec1-dev \
             liblzma-dev
 
+    # ДОБАВЛЕНО: Обновление базовых утилит и установка Buildozer
     - name: Install Buildozer and Cython
       run: |
-        pip install --upgrade pip
-        pip install Cython==0.29.33 buildozer
+        python -m pip install --upgrade pip setuptools virtualenv
+        pip install Cython buildozer
 
     - name: Build with Buildozer
       run: |
