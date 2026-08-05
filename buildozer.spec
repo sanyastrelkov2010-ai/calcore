@@ -18,13 +18,15 @@ source.main = main.py
 # Версия
 version = 1.0
 
-# Необходимые зависимости
-requirements = python3,kivy==2.3.0,kivymd==1.1.1,pillow,sqlite3
+# ИСПРАВЛЕНИЕ 1: Убрали sqlite3 (он встроен в Python, отдельное указание вызывает сбой)
+requirements = python3,kivy==2.3.0,kivymd==1.1.1,pillow
 
 # Портретная ориентация экрана
 orientation = portrait
 
-# Автоматическое принятие лицензии Android
+# ИСПРАВЛЕНИЕ 2: Жестко фиксируем стабильные версии Android API и NDK
+android.api = 34
+android.ndk = 25b
 android.accept_sdk_license = True
 
 [buildozer]
